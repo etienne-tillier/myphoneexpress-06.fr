@@ -2,4 +2,34 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Design system — L'agent IA ajoute ses CSS variables ici */
+/* Design system — Variables */
+:root {
+    --color-primary: #0A2463;
+    --color-secondary: #3E92CC;
+    --color-accent: #F4A261;
+}
+
+/* Google Fonts import via CSS */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Orbitron:wght@400;500;600;700;800&display=swap');
+
+/* Base styles */
+body {
+    font-family: 'Inter', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom prose overrides for dark backgrounds */
+.prose-invert {
+    --tw-prose-body: #e5e7eb;
+    --tw-prose-headings: #f9fafb;
+    --tw-prose-links: #3E92CC;
+    --tw-prose-bold: #f9fafb;
+    --tw-prose-code: #f9fafb;
+    --tw-prose-quotes: #e5e7eb;
+}
+
+/* Smooth scroll */
+html {
+    scroll-behavior: smooth;
+}

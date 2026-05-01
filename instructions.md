@@ -1,119 +1,159 @@
 # Brief de génération de site (niche-starter)
 
-Ce fichier est le brief unique à remplir avant d'envoyer le projet à l'IA.
-L'agent doit lire d'abord `AGENTS.md`, puis ce fichier (`instructions.md`).
+Ce fichier est auto-généré depuis Website Manager.
+L'agent doit lire d'abord `AGENTS.md`, puis ce fichier.
+⚠️ Ce fichier est la source de vérité du brief: ne pas l'écraser avec un template générique.
 
 ---
 
 ## 1) Infos projet
 
-- `site_name`:
-- `site_domain`:
-- `site_url`:
-- `default_locale`:
-- `site_id` (UUID Supabase):
-- `tier` (`tier1` / `tier2`):
+- `site_name`: myphoneexpress-06.fr
+- `site_domain`: myphoneexpress-06.fr
+- `site_url`: https://myphoneexpress-06.fr
+- `default_locale`: fr-FR
+- `site_id` (UUID Supabase): 659749f3-89e5-42c5-852c-a8d14e3996b0
+- `tier` (`tier1` / `tier2`): tier2
 
 ## 2) Positionnement éditorial
 
-- Thématique:
-- Audience cible:
-- Objectif business:
-- Ton éditorial:
-- Angles à privilégier:
-- Angles interdits:
+- Thématique: Telecom
+- Audience cible: Voyageurs fréquents, expatriés, entrepreneurs, utilisateurs avertis en telecom
+- Objectif business: Génération de leads, affiliation avec plateformes telecom, monétisation par expertise
+- Ton éditorial: Expert mais accessible, technique sans jargon excessif, transparent sur les limitations
 
 ## 3) Arborescence souhaitée
 
-- Pages de navigation (hors blog):
-- Sections homepage attendues:
-- CTA principal:
-- CTA secondaire:
+- Pages de navigation (hors blog): /, /guides, /comparatifs, /contact, /a-propos, /mentions-legales, /politique-confidentialite
+- Sections homepage attendues: Hero, Solutions par Pays, Comparatif Plateformes, Guides Techniques, Confiance, FAQ
+- CTA principal: Voir les solutions
+- CTA secondaire: Comparer les plateformes
 
 ## 4) Contraintes SEO
 
-- Requêtes principales:
-- Entités importantes:
-- Concurrents de référence:
-- Règles de maillage interne spécifiques:
-- URLs legacy à rediriger (si applicable):
-  - Si l'URL contient des caractères encodés (`%C3%A9`, etc.), la décoder d'abord puis slugifier proprement (ne jamais produire des slugs de type `c3a9`/`c3a8`).
+- Titre SEO: "Obtenir un Numéro de Téléphone Rapidement | Guide Expert"
+- Meta description: "Guide complet pour obtenir rapidement un numéro de téléphone en France ou à l'étranger. Comparatifs, techniques et conseils d'experts."
+- Règles de maillage interne spécifiques: Tout lien vers le même domaine doit être interne dofollow
 
 ## 5) Direction artistique
 
-- Univers visuel:
-- Inspirations:
-- Couleurs souhaitées / évitées:
-- Style typographique:
-- Niveau d'animation:
-- Niveau de sobriété (1-10):
+- Univers visuel: Technique, Fiable, Rapide, International, Moderne
+- Palette: Bleu technologique profond (primary), Vert signal électronique (secondary), Orange transmission (accent)
+- Typographie: Inter ou Space Grotesk (principale), Orbitron ou Exo 2 (titres)
 
 ## 6) Assets (R2 / médias)
 
-- Bucket/source:
-- Liste images hero:
-- Liste images sections:
-- Liste images guides/blog:
-- Contraintes de ratio/poids:
+⚠️ **OBLIGATOIRE** : utiliser ces images dans le site. Ne PAS les ignorer. Ne PAS créer de SVG placeholder.
+
+- Bucket/source: https://pub-3c1bead77fc84e5d93e229fe1a5fb51f.r2.dev/
+- Images hero:
+  - Hero principal: https://pub-3c1bead77fc84e5d93e229fe1a5fb51f.r2.dev/myphoneexpress-06-fr-home-hero-global-network.jpeg
+- Images sections:
+  - Section solutions: https://pub-3c1bead77fc84e5d93e229fe1a5fb51f.r2.dev/myphoneexpress-06-fr-home-solutions-world-map.jpeg
+  - Section comparatifs: https://pub-3c1bead77fc84e5d93e229fe1a5fb51f.r2.dev/myphoneexpress-06-fr-home-comparatifs-mobile-apps.jpeg
+  - Section guides: https://pub-3c1bead77fc84e5d93e229fe1a5fb51f.r2.dev/myphoneexpress-06-fr-home-guides-technical-setup.jpeg
+  - Section confiance: https://pub-3c1bead77fc84e5d93e229fe1a5fb51f.r2.dev/myphoneexpress-06-fr-home-trust-certifications.jpeg
+  - Section FAQ: https://pub-3c1bead77fc84e5d93e229fe1a5fb51f.r2.dev/myphoneexpress-06-fr-home-faq-customer-support.jpeg
 
 ## 7) Contraintes techniques
 
-- Le code doit respecter strictement les règles de `AGENTS.md`.
-- Ne pas modifier les fichiers Core interdits.
-- Pas de `select("*")` ajouté.
-- Pas de faux articles.
-- Aucune page 404.
-- Toute page additionnelle liée (outil, carte, simulateur, etc.) doit être implémentée et réellement remplie.
-- Si une page n'existe pas, aucun lien ne doit pointer vers elle.
-- Tout lien vers le même domaine doit être traité comme lien interne dofollow.
-- Le bloc auteur en bas d'article doit être soigné, visible et lisible: avatar net (pas minuscule), nom + bio clairs, rendu propre desktop/mobile.
-- Les redirections legacy doivent pointer vers des slugs décodés/normalisés (jamais vers des slugs encodés type `c3a9`).
-- `npm run build` doit passer.
+### Règle critique — Blog Supabase
 
-## 8) Données légales à injecter
+**Ne jamais réécrire la couche data du blog.**
+Les pages `/blog`, `app/blog/[slug]/page.tsx`, `app/blog/categorie/[slug]/page.tsx` et les sitemaps DOIVENT passer par `lib/blog.ts`.
 
-- Mentions légales (éditeur):
-- Contact public:
-- DPO/contact RGPD:
-- Hébergeur:
+Helpers autorisés (et obligatoires) :
+- `getPublishedBlogPosts()` — page listing `/blog`
+- `getBlogPostBySlug()` — page article `/blog/[slug]`
+- `getBlogPostsByCategory()` — page catégorie
+- `getBlogPostsForSitemap()` — sitemap
+
+Interdictions absolues :
+- `.from("articles")` ou `.from('articles')` — la table s'appelle `blog_posts`
+- `.eq("domain", ...)` pour filtrer des articles — utiliser `site_id`
+- Réécrire ou remplacer `lib/blog.ts` par une autre implémentation
+
+### Autres contraintes
+
+- Pas de formulaire de contact (email mailto uniquement)
+- Pas de newsletter
+- ZERO faux article (blog vide = "Aucun article pour le moment")
+- `npm run build` doit passer
+- Toutes les images doivent avoir alt text avec mots-clés
+- Footer sans mention hébergeur
+- Schema.org JSON-LD sur la homepage
+- Sitemap multilingue
+
+## 8) Données légales
+
+- Contact: contact@myphoneexpress-06.fr
 
 ---
 
-## 9) Prompt prêt à envoyer à l'IA
+## 9) Prompt IA généré
 
-Copie/colle ce prompt dans ton agent (Claude/Codex/Gemini) en étant dans ce repo:
+Tu es un assistant de développement full-stack ET designer UI/UX chargé de configurer et d'adapter un template Next.js pour un nouveau site de contenu spécialisé dans les télécommunications.
 
-```text
-Tu es un ingénieur Next.js senior + designer UI/UX.
-Tu travailles dans un projet basé sur niche-starter.
+⚠️ **IMPORTANT - Design Unique Obligatoire** :
+- Chaque site doit avoir un design **COMPLÈTEMENT DIFFÉRENT**
+- **TOUJOURS** créer une palette basée sur l'univers émotionnel de la thématique
+- Suivre le workflow : ANALYSE → DESIGN SYSTEM → ARCHITECTURE → DÉVELOPPEMENT
 
-Ordre obligatoire:
-1) Lire AGENTS.md
-2) Lire instructions.md
-3) Lire CLAUDE.md (si présent, complémentaire)
-4) Implémenter le site complet en respectant strictement ces fichiers.
+## 0. Contexte du projet
+- Nom du projet : MyPhoneExpress-06
+- Domaine : myphoneexpress-06.fr
+- Type de site : Site de référence technique et money site
+- Thématiques : Telecom, numéros virtuels, communication internationale
+- Objectif business : Génération de leads, affiliation avec plateformes telecom, monétisation par expertise
+- Audience cible : Voyageurs fréquents, expatriés, entrepreneurs, utilisateurs avertis en telecom
 
-Contraintes non négociables:
-- Ne jamais écraser AGENTS.md/instructions.md/CLAUDE.md/PROMPT_READY.md
-- Zéro 404
-- Zéro placeholder
-- Aucune modification des fichiers Core interdits
-- Blog 100% Supabase (aucun faux article)
-- ISR egress-safe (revalidate conforme)
-- Toute page additionnelle liée doit exister et être remplie (sinon supprimer le lien)
-- Tout lien du même domaine doit être interne et dofollow
-- Bloc auteur article obligatoire et propre (avatar net, taille suffisante, nom + bio lisibles)
-- Les redirections legacy doivent utiliser des slugs décodés/normalisés (pas de `c3a9`, `c3a8`, etc.)
-- npm run build sans erreur
+## 1. Identité visuelle & Design System (PHASE CRITIQUE)
 
-Action attendue:
-- Créer/modifier les fichiers autorisés
-- Produire un design distinctif adapté à la thématique
-- Remplir toutes les pages obligatoires avec contenu cohérent
-- Utiliser les assets fournis dans instructions.md
+### Univers visuel à créer
+- **5 adjectifs** : Technique, Fiable, Rapide, International, Moderne
+- **Références visuelles** : Réseaux de télécommunication, satellites, connexions globales, circuits électroniques, signaux radio
+- **Émotions à évoquer** : Confiance technologique, efficacité, connectivité mondiale, expertise professionnelle
 
-À la fin:
-- Exécuter npm run build
-- Fournir la liste des fichiers modifiés
-- Expliquer brièvement les choix design et SEO effectués
-```
+### Palette de couleurs
+- Couleur principale (primary) : Bleu technologique profond
+- Couleur secondaire (secondary) : Vert signal électronique
+- Couleur d'accent (accent) : Orange transmission énergique
+- Couleur de fond (background) : Gris très clair technologique
+
+### Typographie
+- Principale : Inter ou Space Grotesk (lisibilité technique)
+- Titres : Orbitron ou Exo 2 (aspect technologique)
+
+## 2. SEO & métadonnées
+- **Titre SEO principal** : "Obtenir un Numéro de Téléphone Rapidement | Guide Expert"
+- **Méta-description** : "Guide complet pour obtenir rapidement un numéro de téléphone en France ou à l'étranger. Comparatifs, techniques et conseils d'experts."
+- **Open Graph title** : "MyPhoneExpress-06 - Votre Expert en Numéros de Téléphone Express"
+
+## 3. Rôle du template
+- Fichiers à mettre à jour :
+  - `config/site.ts` (name, description, domain, navigation telecom)
+  - `app/globals.css` (palette technologique)
+  - contenus de démo dans `content/data/*` et MDX adaptés telecom
+  - configuration blog Supabase
+
+## 4. Contenu & structure
+- **Sections obligatoires sur la page d'accueil** (`/`) :
+  - Hero ("Obtenez votre numéro en moins de 5 minutes", sous-titre expertise, CTA "Voir les solutions")
+  - Section "Solutions par Pays" avec drapeaux et liens rapides
+  - Section "Comparatif Plateformes" avec tableau des meilleures options
+  - Section "Guides Techniques" mettant en avant les articles experts
+  - Bloc "Pourquoi nous faire confiance" avec chiffres et certifications
+  - FAQ rapide sur les questions les plus fréquentes
+- Pages : `/guides/[pays]`, `/comparatifs/[plateforme]`
+
+## 5. Consignes éditoriales
+- Toujours mentionner les implications légales et les limitations géographiques
+- Contenu utile, informatif, optimisé SEO
+- Minimum 500 mots sur la homepage
+- Maillage interne : chaque page lie vers 2-3 autres pages
+
+## 6. Anti-patterns à éviter
+❌ Commencer à coder avant d'avoir créé le design system technologique
+❌ Utiliser des couleurs génériques non adaptées à l'univers telecom
+❌ Créer un design qui ressemble à tous les autres sites tech
+❌ Oublier les mentions légales spécifiques aux télécommunications
