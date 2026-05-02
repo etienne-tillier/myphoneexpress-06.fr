@@ -3,6 +3,7 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import Image from "next/image";
 
 import { MarkdownLink } from "@/components/MarkdownLink";
 import { getBlogPostBySlug } from "@/lib/blog";
@@ -75,11 +76,48 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             : "Date inconnue"}
         </p>
 
+        {post.cover?.file_url && (
+          <div className="mt-6 overflow-hidden rounded-lg">
+            <Image
+              src={post.cover.file_url}
+              alt={post.cover.alt || post.h1 || post.seo_title || ""}
+              width={1200}
+              height={630}
+              priority
+              className="w-full object-cover"
+            />
+          </div>
+        )}
+
         <div className="prose prose-slate mt-8 max-w-none">
           <ReactMarkdown remarkPlugins={[remarkGfm]} components={{ a: MarkdownLink }}>
             {post.body_md || post.excerpt || ""}
           </ReactMarkdown>
         </div>
+
+        {post.author && (
+          <div className="mt-12 flex items-center gap-4 border-t pt-8">
+            {post.author.avatar_url ? (
+              <Image
+                src={post.author.avatar_url}
+                alt={post.author.name || "Auteur"}
+                width={64}
+                height={64}
+                className="rounded-full object-cover"
+              />
+            ) : (
+              <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-slate-200 text-xl font-semibold text-slate-600">
+                {post.author.name?.charAt(0).toUpperCase() || "A"}
+              </div>
+            )}
+            <div>
+              <p className="font-semibold text-slate-900">{post.author.name}</p>
+              {post.author.bio && (
+                <p className="mt-1 text-sm text-slate-500">{post.author.bio}</p>
+              )}
+            </div>
+          </div>
+        )}
       </article>
     </main>
   );
